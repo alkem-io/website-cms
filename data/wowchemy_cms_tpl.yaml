@@ -1,0 +1,143 @@
+backend:
+  name: git-gateway
+  branch: main
+  squash_merges: true
+media_folder: 'assets/media'
+public_folder: '/media'
+collections:
+  - name: authors
+    label: Authors
+    label_singular: Author
+    folder: 'content/en/authors'
+    path: '{{slug}}/_index'
+    filter: {field: "cms_exclude"}
+    create: true  # Allow users to create new documents in this collection
+    fields:  # The fields each document in this collection have
+      - {label: "Display name (such as your full name)", name: "title", widget: "string"}
+      - {label: "Position or tagline (such as Professor of AI)", name: "role", widget: "string", required: false}
+      - label: "Avatar (upload an image named `avatar.jpg/png`)"
+        name: "avatar_filename"
+        widget: "image"
+        default: "avatar"
+        required: false
+        media_library:
+          config:
+            multiple: false
+      - {label: "Short biography (shown in author boxes)", name: "bio", widget: "string", required: false}
+      - {label: "Full biography (shown in About widget)", name: "body", widget: "markdown", required: false}
+      - label: "Interests (shown in About widget)"
+        name: "interests"
+        required: false
+        widget: "list"
+      - label: Social links
+        name: social
+        required: false
+        widget: list
+        fields:
+          - {label: Link, name: link, widget: string}
+          - label: Icon pack
+            name: icon_pack
+            widget: select
+            multiple: false
+            options:
+              - {label: "None", value: ""}
+              - {label: "Solid", value: "fas"}
+              - {label: "Regular", value: "far"}
+              - {label: "Brand", value: "fab"}
+              - {label: "Academic", value: "ai"}
+          - {label: Icon (see https://wowchemy.com/docs/page-builder/#icons), name: icon, widget: string}
+          - {label: Label (tooltip), name: label, widget: string, required: false}
+          - label: Display in About widget and...
+            name: display
+            widget: object
+            fields:
+              - label: "Header (main menu)"
+                name: "header"
+                widget: "boolean"
+                default: false
+                required: false
+      - label: "Organizations you belong to or are affiliated with (shown in About widget)"
+        name: "organizations"
+        required: false
+        widget: list
+        fields:
+          - {label: Organization, name: name, widget: string, required: true}
+          - {label: Link, name: url, widget: string, required: false}
+      - label: "Education"
+        name: "education"
+        required: false
+        widget: object
+        fields:
+          - label: "Courses"
+            name: "courses"
+            required: false
+            widget: list
+            fields:
+              - {label: Course, name: course, widget: string, required: true}
+              - {label: Institution, name: institution, widget: string, required: true}
+              - {label: Year, name: year, widget: number, value_type: int, required: false}
+      - {label: "Email (to use a Gravatar.com avatar)", name: "email", widget: "string", required: false}
+      - label: "Super user (is this the primary site user?)"
+        name: "superuser"
+        widget: "boolean"
+        default: false
+      - label: "User groups (only for organization websites)"
+        name: "user_groups"
+        required: false
+        widget: "list"
+  - name: posts
+    label: Posts
+    label_singular: Post
+    folder: 'content/en/post'
+    path: '{{slug}}/index'
+    filter: {field: "cms_exclude"}
+    create: true  # Allow users to create new documents in this collection
+    fields:  # The fields each document in this collection have
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Subtitle", name: "subtitle", widget: "string", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Publish this page on", name: "date", widget: "datetime"}
+      - {label: "Summary", name: "summary", widget: "markdown", required: false}
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        required: false
+      - label: "Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        required: false
+      - label: "Authors"
+        name: "authors"
+        required: false
+        widget: "list"
+      - label: "Tags"
+        name: "tags"
+        required: false
+        widget: "list"
+      - label: "Categories"
+        name: "categories"
+        required: false
+        widget: "list"
+      - label: "Projects"
+        name: "projects"
+        required: false
+        widget: "list"
+      - label: "Featured Image"
+        name: "image"
+        required: false
+        widget: object
+        fields:
+          - label: "Upload an image named `featured.jpg/png`"
+            name: "filename"
+            widget: "image"
+            default: "featured"
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - {label: Caption, name: caption, widget: string, required: false}
+          - {label: Description for screen readers, name: alt_text, widget: string, required: false}
+          - {label: "Where's the focal point in the image? Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.", name: focal_point, widget: string, required: false, default: "Smart"}
+          - {label: 'Thumbnail Only?', name: preview_only, widget: boolean, default: false, required: false}
